@@ -73,3 +73,131 @@ DB_CONNECTION_TIMEOUT=2000
 | `DB_CONNECTION_TIMEOUT` | Connection timeout (ms) | `2000` | No |
 
 ### 3. Database Setup
+
+```bash
+# Run database migrations
+npm run db:push
+```
+
+### 4. Start the Application
+
+```bash
+# Development mode
+npm run dev
+
+# Production mode
+npm start
+```
+
+## 🐳 Docker Deployment
+
+### Build Docker Image
+
+```bash
+docker build -t cms-pages-api .
+```
+
+### Run with Docker
+
+#### Option 1: Using DATABASE_URL
+
+```bash
+docker run -d \
+  --name cms-pages-api \
+  -p 5000:5000 \
+  -e API_BEARER_TOKEN=your_secret_token_here \
+  -e DATABASE_URL=postgresql://username:password@host:port/database \
+  cms-pages-api
+```
+
+#### Option 2: Using Individual Database Parameters
+
+```bash
+docker run -d \
+  --name cms-pages-api \
+  -p 5000:5000 \
+  -e API_BEARER_TOKEN=your_secret_token_here \
+  -e DB_HOST=your_db_host \
+  -e DB_PORT=5432 \
+  -e DB_NAME=cms_pages \
+  -e DB_USER=postgres \
+  -e DB_PASSWORD=your_db_password \
+  -e DB_SSL=false \
+  cms-pages-api
+```
+
+#### Option 3: Using Environment File
+
+Create a `.env.production` file:
+```bash
+API_BEARER_TOKEN=your_secret_token_here
+DATABASE_URL=postgresql://username:password@host:port/database
+DB_MAX_CONNECTIONS=50
+DB_IDLE_TIMEOUT=30000
+```
+
+Run with environment file:
+```bash
+docker run -d \
+  --name cms-pages-api \
+  -p 5000:5000 \
+  --env-file .env.production \
+  cms-pages-api
+```
+
+### Docker Compose (Recommended)
+
+Create a `docker-compose.yml` file:
+
+```yaml
+version: '3.8'
+
+services:
+  cms-api:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - API_BEARER_TOKEN=your_secret_token_here
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=cms_pages
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+      - DB_MAX_CONNECTIONS=50
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=cms_pages
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+```
+
+Start with Docker Compose:
+```bash
+docker-compose up -d
+```
+
+### Health Check
+
+The container includes a health check that monitors the `/api/health` endpoint. Check container health:
+
+```bash
+docker ps
+# Look for "healthy" status
+
+# Or check health directly
+curl http://localhost:5000/api/health
+```
