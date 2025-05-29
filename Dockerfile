@@ -10,8 +10,8 @@ RUN apk add --no-cache postgresql-client
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies (including dev dependencies for tsx)
+RUN npm ci
 
 # Copy source code
 COPY . .
@@ -31,5 +31,5 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:5000/api/health || exit 1
 
-# Start the application
-CMD ["npm", "start"]
+# Start the application using tsx directly (no build step required)
+CMD ["npx", "tsx", "server/index.ts"]
