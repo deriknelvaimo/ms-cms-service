@@ -217,7 +217,7 @@ X-Response-Time: ${responseTime}ms`,
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="/api/cms-pages">/api/cms-pages</SelectItem>
-                <SelectItem value="/api/cms-pages/1">/api/cms-pages/{id}</SelectItem>
+                <SelectItem value="/api/cms-pages/1">/api/cms-pages/1</SelectItem>
                 <SelectItem value="/api/cms-pages/stats">/api/cms-pages/stats</SelectItem>
                 <SelectItem value="/api/health">/api/health</SelectItem>
               </SelectContent>
