@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%; /* #FFFFFF */
+  --foreground: 240 10% 3.9%; /* #09090B */
+  --muted: 240 4.8% 95.9%; /* #F1F5F9 */
+  --muted-foreground: 240 3.8% 45.1%; /* #64748B */
+  --popover: 0 0% 100%; /* #FFFFFF */
+  --popover-foreground: 240 10% 3.9%; /* #09090B */
+  --card: 0 0% 100%; /* #FFFFFF */
+  --card-foreground: 240 10% 3.9%; /* #09090B */
+  --border: 240 5.9% 90%; /* #E2E8F0 */
+  --input: 240 5.9% 90%; /* #E2E8F0 */
+  --primary: 207 90% 54%; /* #1976D2 */
+  --primary-foreground: 0 0% 98%; /* #FAFAFA */
+  --secondary: 240 4.8% 95.9%; /* #F1F5F9 */
+  --secondary-foreground: 240 5.9% 10%; /* #1E293B */
+  --accent: 240 4.8% 95.9%; /* #F1F5F9 */
+  --accent-foreground: 240 5.9% 10%; /* #1E293B */
+  --destructive: 0 84.2% 60.2%; /* #EF4444 */
+  --destructive-foreground: 0 0% 98%; /* #FAFAFA */
+  --ring: 207 90% 54%; /* #1976D2 */
+  --radius: 0.5rem;
+  
+  /* Additional colors for the CMS API design */
+  --success: 142 76% 36%; /* #16A34A */
+  --success-foreground: 0 0% 98%; /* #FAFAFA */
+  --warning: 38 92% 50%; /* #F59E0B */
+  --warning-foreground: 0 0% 98%; /* #FAFAFA */
+  --error: 0 84.2% 60.2%; /* #EF4444 */
+  --error-foreground: 0 0% 98%; /* #FAFAFA */
+}
+
+.dark {
+  --background: 240 10% 3.9%; /* #09090B */
+  --foreground: 0 0% 98%; /* #FAFAFA */
+  --muted: 240 3.7% 15.9%; /* #27272A */
+  --muted-foreground: 240 5% 64.9%; /* #A1A1AA */
+  --popover: 240 10% 3.9%; /* #09090B */
+  --popover-foreground: 0 0% 98%; /* #FAFAFA */
+  --card: 240 10% 3.9%; /* #09090B */
+  --card-foreground: 0 0% 98%; /* #FAFAFA */
+  --border: 240 3.7% 15.9%; /* #27272A */
+  --input: 240 3.7% 15.9%; /* #27272A */
+  --primary: 207 90% 54%; /* #1976D2 */
+  --primary-foreground: 0 0% 98%; /* #FAFAFA */
+  --secondary: 240 3.7% 15.9%; /* #27272A */
+  --secondary-foreground: 0 0% 98%; /* #FAFAFA */
+  --accent: 240 3.7% 15.9%; /* #27272A */
+  --accent-foreground: 0 0% 98%; /* #FAFAFA */
+  --destructive: 0 62.8% 30.6%; /* #B91C1C */
+  --destructive-foreground: 0 0% 98%; /* #FAFAFA */
+  --ring: 207 90% 54%; /* #1976D2 */
+  
+  --success: 142 76% 36%; /* #16A34A */
+  --success-foreground: 0 0% 98%; /* #FAFAFA */
+  --warning: 38 92% 50%; /* #F59E0B */
+  --warning-foreground: 0 0% 98%; /* #FAFAFA */
+  --error: 0 62.8% 30.6%; /* #B91C1C */
+  --error-foreground: 0 0% 98%; /* #FAFAFA */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Custom scrollbar for code blocks */
+  pre::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  pre::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded;
+  }
+
+  pre::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 rounded;
+  }
+
+  pre::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500;
+  }
+
+  /* Smooth transitions for interactive elements */
+  .tab-button {
+    @apply transition-colors duration-200 ease-in-out;
+  }
+
+  /* Material design elevation shadows */
+  .shadow-material {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+  }
+
+  .shadow-material-lg {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 16px 32px rgba(0,0,0,0.12);
+  }
+}
+
+@layer components {
+  /* Custom badge styles for HTTP methods */
+  .method-badge-get {
+    @apply bg-green-100 text-green-800 border-green-200;
+  }
+
+  .method-badge-post {
+    @apply bg-blue-100 text-blue-800 border-blue-200;
+  }
+
+  .method-badge-put {
+    @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+  }
+
+  .method-badge-patch {
+    @apply bg-orange-100 text-orange-800 border-orange-200;
+  }
+
+  .method-badge-delete {
+    @apply bg-red-100 text-red-800 border-red-200;
+  }
+
+  /* Status indicator styles */
+  .status-success {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .status-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+
+  .status-error {
+    @apply bg-red-100 text-red-800;
+  }
+}
