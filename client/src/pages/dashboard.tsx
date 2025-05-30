@@ -43,9 +43,7 @@ export default function Dashboard() {
   ];
 
   const quickLinks = [
-    { label: "Swagger Documentation", icon: BookOpen, href: "#" },
-    { label: "Postman Collection", icon: Download, href: "#" },
-    { label: "GitHub Repository", icon: Github, href: "#" },
+    { label: "Postman Collection", icon: Download, href: "/postman-collection.json" },
     { label: "Performance Metrics", icon: BarChart3, href: "#" },
   ];
 

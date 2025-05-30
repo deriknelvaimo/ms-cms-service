@@ -201,3 +201,14 @@ docker ps
 # Or check health directly
 curl http://localhost:5000/api/health
 ```
+
+## API Endpoints
+
+- **GET /api/cms-pages**: Retrieve a paginated list of CMS pages with optional filtering.
+- **POST /api/cms-pages**: Create a new CMS page or multiple pages. Accepts a single page object or an array of page objects.
+- **GET /api/cms-pages/:id**: Retrieve a specific CMS page by ID.
+- **PUT /api/cms-pages/:id**: Update an existing CMS page by ID.
+- **DELETE /api/cms-pages/:id**: Delete a CMS page by ID.
+- **GET /api/cms-pages/stats**: Get statistics about CMS pages.
+- **GET /api/health**: Health check endpoint.
+- **GET /postman-collection.json**: Download the Postman collection for API testing.

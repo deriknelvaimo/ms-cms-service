@@ -54,7 +54,7 @@ const endpoints: Endpoint[] = [
   {
     method: "POST",
     path: "/api/cms-pages",
-    description: "Create a new CMS page",
+    description: "Create a new CMS page.",
     requestBody: `{
   "storeId": 1,
   "title": "New Page Title",
@@ -64,16 +64,14 @@ const endpoints: Endpoint[] = [
   "isActive": true
 }`,
     responseExample: `{
-  "id": 2,
-  "storeId": 1,
-  "title": "New Page Title",
-  "layout": "1column",
-  "urlKey": "new-page-url",
-  "content": "Page content here...",
-  "isActive": true,
-  "createdAt": "2024-01-01T00:00:00.000000Z",
-  "updatedAt": "2024-01-01T00:00:00.000000Z"
-}`,
+    "id": 2,
+    "storeId": 1,
+    "title": "New Page Title",
+    "layout": "1column",
+    "urlKey": "new-page-url",
+    "content": "Page content here...",
+    "isActive": true
+  }`,
   },
   {
     method: "GET",

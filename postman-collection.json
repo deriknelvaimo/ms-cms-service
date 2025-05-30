@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "CMS Pages API",
+    "description": "A collection for the CMS Pages API microservice.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All CMS Pages",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/cms-pages",
+        "description": "Retrieve a paginated list of CMS pages with optional filtering.",
+        "query": [
+          { "key": "page", "value": "1", "description": "Page number (default: 1)" },
+          { "key": "perPage", "value": "15", "description": "Items per page (default: 15, max: 100)" },
+          { "key": "storeId", "value": "", "description": "Filter by store ID" },
+          { "key": "isActive", "value": "", "description": "Filter by active status" }
+        ],
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{bearerToken}}", "description": "Bearer token for authentication" }
+        ]
+      }
+    },
+    {
+      "name": "Create CMS Page",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/cms-pages",
+        "description": "Create a new CMS page.",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{bearerToken}}", "description": "Bearer token for authentication" },
+          { "key": "Content-Type", "value": "application/json", "description": "Content type" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"storeId\": 1,\n  \"title\": \"New Page Title\",\n  \"layout\": \"1column\",\n  \"urlKey\": \"new-page-url\",\n  \"content\": \"Page content here...\",\n  \"isActive\": true\n}"
+        }
+      }
+    },
+    {
+      "name": "Get CMS Page by ID",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/cms-pages/{{id}}",
+        "description": "Retrieve a specific CMS page by ID.",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{bearerToken}}", "description": "Bearer token for authentication" }
+        ]
+      }
+    },
+    {
+      "name": "Update CMS Page",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/cms-pages/{{id}}",
+        "description": "Update an existing CMS page.",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{bearerToken}}", "description": "Bearer token for authentication" },
+          { "key": "Content-Type", "value": "application/json", "description": "Content type" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Updated Page Title\",\n  \"content\": \"Updated page content...\",\n  \"isActive\": false\n}"
+        }
+      }
+    },
+    {
+      "name": "Delete CMS Page",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/cms-pages/{{id}}",
+        "description": "Delete a CMS page by ID.",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{bearerToken}}", "description": "Bearer token for authentication" }
+        ]
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000", "description": "Base URL for the API" },
+    { "key": "bearerToken", "value": "your_secret_token_here", "description": "Bearer token for authentication" },
+    { "key": "id", "value": "1", "description": "CMS Page ID" }
+  ]
+} 

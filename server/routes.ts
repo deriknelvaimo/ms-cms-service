@@ -3,6 +3,13 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertCmsPageSchema, updateCmsPageSchema, paginationSchema } from "@shared/schema";
 import { z } from "zod";
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Bearer token authentication middleware
 const authenticate = (req: Request, res: Response, next: Function) => {
@@ -243,6 +250,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         error: "Database connection failed"
       });
     }
+  });
+
+  // Serve Postman collection
+  app.get('/postman-collection.json', (req, res) => {
+    res.setHeader('Content-Disposition', 'attachment; filename=postman-collection.json');
+    res.sendFile(path.join(__dirname, '../postman-collection.json'));
   });
 
   const httpServer = createServer(app);
