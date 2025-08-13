@@ -14,7 +14,15 @@ const __dirname = dirname(__filename);
 // Bearer token authentication middleware
 const authenticate = (req: Request, res: Response, next: Function) => {
   const authHeader = req.headers.authorization;
-  const expectedToken = process.env.API_BEARER_TOKEN || process.env.BEARER_TOKEN || "default-token";
+  const expectedToken = process.env.API_BEARER_TOKEN || process.env.BEARER_TOKEN;
+
+  if (!expectedToken) {
+    console.error("CRITICAL: API_BEARER_TOKEN is not configured. Authentication is disabled, failing all requests.");
+    return res.status(500).json({
+        error: "Configuration Error",
+        message: "API authentication is not configured on the server."
+    });
+  }
   
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ 

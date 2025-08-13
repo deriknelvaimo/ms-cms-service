@@ -1,6 +1,6 @@
 import { cmsPages, type CmsPage, type InsertCmsPage, type UpdateCmsPage, type PaginationParams } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, count, desc } from "drizzle-orm";
+import { eq, and, count, desc, sql } from "drizzle-orm";
 
 export interface ICmsStorage {
   getCmsPage(id: number): Promise<CmsPage | undefined>;
@@ -86,21 +86,20 @@ export class DatabaseStorage implements ICmsStorage {
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
-    // Get total count
-    const [{ total }] = await db
-      .select({ total: count() })
-      .from(cmsPages)
-      .where(whereClause);
-
-    // Get paginated data
-    const data = await db
-      .select()
+    // Combine getting paginated data and total count in one query
+    const results = await db
+      .select({
+        page: cmsPages,
+        total: sql<number>`count(*) OVER()`.as('total'),
+      })
       .from(cmsPages)
       .where(whereClause)
       .orderBy(desc(cmsPages.createdAt))
       .limit(perPage)
       .offset(offset);
 
+    const total = results[0]?.total || 0;
+    const data = results.map(r => r.page);
     const lastPage = Math.ceil(total / perPage);
 
     return {
