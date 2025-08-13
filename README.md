@@ -1,214 +1,77 @@
 # CMS Pages API Microservice
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A high-performance headless CMS API microservice built with Express.js and PostgreSQL, designed to extend Magento 2's CMS pages system for handling 1M+ records with optimal performance.
 
-## 🚀 Features
+> **For detailed information about the architecture, API reference, deployment, and contribution guidelines, please see the [Comprehensive Documentation](DOCUMENTATION.md).**
 
-- **RESTful API** with full CRUD operations for CMS pages
-- **Bearer token authentication** via environment variable validation
-- **PostgreSQL database** with optimized schema and indexing
-- **High-performance pagination** designed for large datasets
-- **Comprehensive error handling** and validation
-- **Interactive documentation** and API testing interface
-- **Swagger/OpenAPI** documentation
-- **Docker-ready** self-contained application
+## ✨ Features
 
-## 📋 Requirements
+-   **RESTful API**: Full CRUD operations for CMS pages.
+-   **Authentication**: Secure API with bearer token authentication.
+-   **High-Performance**: Optimized for large datasets with efficient pagination and indexing.
+-   **Interactive Dashboard**: A React-based frontend for API documentation, testing, and monitoring.
+-   **Containerized**: Docker-ready for easy deployment.
 
-- Node.js 18+ 
-- PostgreSQL 12+
-- Environment variables for configuration
+## 🚀 Quick Start
 
-## 🛠 Installation & Setup
+This guide will get you up and running in a few minutes.
 
-### 1. Clone and Install Dependencies
+### Prerequisites
 
-```bash
-git clone <repository-url>
-cd cms-pages-api
-npm install
-```
+-   Node.js v18+
+-   Docker and Docker Compose
 
-### 2. Environment Configuration
+### Steps
 
-Create a `.env` file in the root directory with the following variables:
+1.  **Clone the repository**:
+    ```bash
+    git clone <repository-url>
+    cd cms-pages-api-microservice
+    ```
 
-#### Required Configuration
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-```bash
-# Bearer token for API authentication
-API_BEARER_TOKEN=your_secret_token_here
+3.  **Start the database**:
+    This project includes a `docker-compose.yml` file to easily start a PostgreSQL database.
+    ```bash
+    docker-compose up -d
+    ```
 
-# Database Configuration (Option 1: Connection String)
-DATABASE_URL=postgresql://username:password@host:port/database
+4.  **Configure environment variables**:
+    Create a `.env` file in the root directory. You can copy the example:
+    ```bash
+    cp .env.example .env
+    ```
+    *Note: If `.env.example` does not exist, create a `.env` file with the following content:*
+    ```env
+    # API Authentication
+    API_BEARER_TOKEN=your-secret-token
 
-# Database Configuration (Option 2: Individual Parameters)
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=cms_pages
-DB_USER=postgres
-DB_PASSWORD=your_password
-DB_SSL=false
+    # Database Connection
+    DATABASE_URL="postgresql://postgres:postgres123@localhost:5432/cms_pages"
+    ```
 
-# Optional Database Pool Settings
-DB_MAX_CONNECTIONS=20
-DB_IDLE_TIMEOUT=30000
-DB_CONNECTION_TIMEOUT=2000
-```
+5.  **Run database migrations**:
+    ```bash
+    npm run db:push
+    ```
 
-#### Environment Variables Reference
+6.  **Start the development server**:
+    ```bash
+    npm run dev
+    ```
 
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `API_BEARER_TOKEN` | Bearer token for API authentication | `default-token` | Yes |
-| `DATABASE_URL` | Complete PostgreSQL connection string | - | Yes (if individual params not set) |
-| `DB_HOST` | Database host | `localhost` | No |
-| `DB_PORT` | Database port | `5432` | No |
-| `DB_NAME` | Database name | `cms_pages` | No |
-| `DB_USER` | Database username | `postgres` | No |
-| `DB_PASSWORD` | Database password | - | Yes |
-| `DB_SSL` | Enable SSL connection | `false` | No |
-| `DB_MAX_CONNECTIONS` | Maximum connection pool size | `20` | No |
-| `DB_IDLE_TIMEOUT` | Connection idle timeout (ms) | `30000` | No |
-| `DB_CONNECTION_TIMEOUT` | Connection timeout (ms) | `2000` | No |
+The application is now running and accessible at `http://localhost:5000`.
 
-### 3. Database Setup
+## 🐳 Deployment
 
-```bash
-# Run database migrations
-npm run db:push
-```
+The application is designed to be deployed using Docker. For detailed instructions on building the Docker image and running it in a production environment, please refer to the [Deployment section in the documentation](DOCUMENTATION.md#6-deployment).
 
-### 4. Start the Application
+## 🤝 Contributing
 
-```bash
-# Development mode
-npm run dev
-
-# Production mode
-npm start
-```
-
-## 🐳 Docker Deployment
-
-### Build Docker Image
-
-```bash
-docker build -t cms-pages-api .
-```
-
-### Run with Docker
-
-#### Option 1: Using DATABASE_URL
-
-```bash
-docker run -d \
-  --name cms-pages-api \
-  -p 5000:5000 \
-  -e API_BEARER_TOKEN=your_secret_token_here \
-  -e DATABASE_URL=postgresql://username:password@host:port/database \
-  cms-pages-api
-```
-
-#### Option 2: Using Individual Database Parameters
-
-```bash
-docker run -d \
-  --name cms-pages-api \
-  -p 5000:5000 \
-  -e API_BEARER_TOKEN=your_secret_token_here \
-  -e DB_HOST=your_db_host \
-  -e DB_PORT=5432 \
-  -e DB_NAME=cms_pages \
-  -e DB_USER=postgres \
-  -e DB_PASSWORD=your_db_password \
-  -e DB_SSL=false \
-  cms-pages-api
-```
-
-#### Option 3: Using Environment File
-
-Create a `.env.production` file:
-```bash
-API_BEARER_TOKEN=your_secret_token_here
-DATABASE_URL=postgresql://username:password@host:port/database
-DB_MAX_CONNECTIONS=50
-DB_IDLE_TIMEOUT=30000
-```
-
-Run with environment file:
-```bash
-docker run -d \
-  --name cms-pages-api \
-  -p 5000:5000 \
-  --env-file .env.production \
-  cms-pages-api
-```
-
-### Docker Compose (Recommended)
-
-Create a `docker-compose.yml` file:
-
-```yaml
-version: '3.8'
-
-services:
-  cms-api:
-    build: .
-    ports:
-      - "5000:5000"
-    environment:
-      - API_BEARER_TOKEN=your_secret_token_here
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=cms_pages
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres123
-      - DB_MAX_CONNECTIONS=50
-    depends_on:
-      - postgres
-    restart: unless-stopped
-
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_DB=cms_pages
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres123
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
-
-volumes:
-  postgres_data:
-```
-
-Start with Docker Compose:
-```bash
-docker-compose up -d
-```
-
-### Health Check
-
-The container includes a health check that monitors the `/api/health` endpoint. Check container health:
-
-```bash
-docker ps
-# Look for "healthy" status
-
-# Or check health directly
-curl http://localhost:5000/api/health
-```
-
-## API Endpoints
-
-- **GET /api/cms-pages**: Retrieve a paginated list of CMS pages with optional filtering.
-- **POST /api/cms-pages**: Create a new CMS page or multiple pages. Accepts a single page object or an array of page objects.
-- **GET /api/cms-pages/:id**: Retrieve a specific CMS page by ID.
-- **PUT /api/cms-pages/:id**: Update an existing CMS page by ID.
-- **DELETE /api/cms-pages/:id**: Delete a CMS page by ID.
-- **GET /api/cms-pages/stats**: Get statistics about CMS pages.
-- **GET /api/health**: Health check endpoint.
-- **GET /postman-collection.json**: Download the Postman collection for API testing.
+Contributions are welcome! Please see the [Contributing Guidelines](DOCUMENTATION.md#7-contributing) for more details.
